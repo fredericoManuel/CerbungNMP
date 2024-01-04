@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CerbungNMP"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".ReadFragment"
@@ -55,9 +56,6 @@
         </activity>
         <activity
             android:name=".Home"
-            android:exported="false" />
-        <activity
-            android:name=".cerbung_item"
             android:exported="false" />
         <activity
             android:name=".Cerbung"

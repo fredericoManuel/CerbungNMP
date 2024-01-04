@@ -1,17 +1,14 @@
-package com.example.cerbung
+package com.ubaya.cerbungnmp
 
 data class Cerbung(
     var id:Int,
     var title:String,
     var author_id:Int,
-    var author:String,
-    var genre:String,
+    var genre_id:Int,
     var summary:String,
     var img_url:String,
     var created_at:String,
     var updated_at:String,
-    var restricted:Int,
-    var paragraphs:Int,
-    var likes:Int,
+    var akses:String,
     //var detail:ArrayList<Paragraph>,
 )

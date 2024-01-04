@@ -7,7 +7,6 @@ import android.view.MenuItem
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.example.cerbung.CerbungNav
 import com.google.android.material.snackbar.Snackbar
 import com.ubaya.cerbungnmp.databinding.ActivityMainCerbungBinding
 
@@ -21,6 +20,11 @@ class MainActivityCerbung : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+//        setSupportActionBar(binding.toolbar)
+
+//        val initialFragment = HomeFragment()
+//        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, initialFragment).commit()
+
 
         fragments.add(HomeFragment())
         fragments.add(FollowFragment())
@@ -29,10 +33,10 @@ class MainActivityCerbung : AppCompatActivity() {
         fragments.add(PrefFragment())
         fragments.add(ReadFragment())
 
-        binding.viewPager.adapter = CerbungNav(this, fragments)
+        binding.viewPager2.adapter = CerbungNav(this, fragments)
 
         //hubungin bottom nav bar ke viewpager
-        binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+        binding.viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.bottomNav.selectedItemId =
                     binding.bottomNav.menu.getItem(position).itemId
@@ -43,7 +47,7 @@ class MainActivityCerbung : AppCompatActivity() {
 
         //nampilin fragment paling kiri (index 0) itu home, dst
         binding.bottomNav.setOnItemSelectedListener {
-            binding.viewPager.currentItem = when(it.itemId) {
+            binding.viewPager2.currentItem = when(it.itemId) {
                 R.id.itemHome -> 0
                 R.id.itemFollow -> 1
                 R.id.itemCreate -> 2
