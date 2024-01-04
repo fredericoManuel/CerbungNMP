@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemHome"
+        android:enabled="true"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Home"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itemFollow"
+        android:enabled="true"
+        android:icon="@drawable/baseline_import_contacts_24"
+        android:title="Following"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itemCreate"
+        android:enabled="true"
+        android:icon="@drawable/baseline_create_24"
+        android:title="Create"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itemUsers"
+        android:enabled="true"
+        android:icon="@drawable/baseline_groups_24"
+        android:iconTint="#0C0C0C"
+        android:iconTintMode="multiply"
+        android:title="Users"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itemPrefs"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:iconTint="#131212"
+        android:title="Prefs"
+        android:visible="true"
+        app:showAsAction="always" />
+</menu>

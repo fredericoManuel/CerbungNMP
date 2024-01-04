@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CerbungNMP</string>
+    <string name="txt_username" />
+    <string name="read_more">Read</string>
+    <string name="buttoncreate" />
+    <string name="btnCreate">false</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
