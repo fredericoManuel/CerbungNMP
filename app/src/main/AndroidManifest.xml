@@ -14,24 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CerbungNMP"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".UsersAdapter"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-        <activity
-            android:name=".ChangePassActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".NotificationActivity"
-            android:exported="false" />
         <activity
             android:name=".ReadFragment"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".PrefFragment"
             android:exported="false" />
@@ -40,10 +25,10 @@
             android:exported="false" />
         <activity
             android:name=".CreateFragment"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".FollowFragment"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".HomeFragment"
             android:exported="false" />
@@ -74,6 +59,9 @@
         <activity
             android:name=".cerbung_item"
             android:exported="false" />
+        <activity
+            android:name=".Cerbung"
+            android:exported="true" />
         <activity
             android:name=".SignUp"
             android:exported="true" />

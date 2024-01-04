@@ -1,59 +1,116 @@
 package com.ubaya.cerbungnmp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.ubaya.cerbungnmp.databinding.FragmentHomeBinding
+import org.json.JSONObject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    var cerbungs: ArrayList<Cerbung> = ArrayList()
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        fetchData()
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater,container,false )
+//        if (cerbung.isEmpty()) { // Fetch data only if needed
+//            fetchData()
+//        } else {
+//            updateList()
+//        }
+//        return binding.root
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+
+
+
+//    override fun onReadButtonClicked(
+//        contentId: Int,
+//        contentAccess: String,
+//        contentPhoto: String,
+//        contentTitle: String,
+//        contentDateReleased: String
+//    ) {
+//        val readFragment = ReadFragment()
+//        val bundle = Bundle()
+//        bundle.putInt("idCerita", contentId) // Pass necessary data
+//        bundle.putString("access", contentAccess)
+//        bundle.putString("urlFoto", contentPhoto)
+//        bundle.putString("titleCerita", contentTitle)
+//        bundle.putString("tglRilis", contentDateReleased)
+//        readFragment.arguments = bundle
+//
+//        val fragmentManager = activity?.supportFragmentManager
+//        val fragmentTransaction = fragmentManager?.beginTransaction()
+//        fragmentTransaction?.replace(R.id.fragmentContainer, readFragment)
+//        fragmentTransaction?.addToBackStack(null) // Add to back stack for navigation history
+//        fragmentTransaction?.commit()
+//    }
+
+    private fun fetchData(){
+        val q = Volley.newRequestQueue(activity)
+        val url = "https://ubaya.me/native/160721056/get_cerbung.php"
+        var stringRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener<String>{
+                Log.d("apiresult", it)
+                val obj = JSONObject(it)
+                if(obj.getString("result") == "OK") {
+                    val data = obj.getJSONArray("data")
+
+                    for (i in 0 until data.length()){
+                        val playObj = data.getJSONObject(i)
+                        val cerbung = Cerbung(
+                            playObj.getInt("id"),
+                            playObj.getString("title"),
+                            playObj.getInt("author_id"),
+                            playObj.getInt("genre_id"),
+                            playObj.getString("summary"),
+                            playObj.getString("img_url"),
+                            playObj.getString("created_at"),
+                            playObj.getString("updated_at"),
+                            playObj.getString("akses")
+                        )
+                        cerbungs.add(cerbung)
+                    }
+                    updateList()
+
+                    Log.d("cekisiarray", cerbungs.toString() )
                 }
-            }
+            },
+            {
+                Log.e("apiresult", it.message.toString())
+            })
+        q.add(stringRequest)
+    }
+
+    fun updateList(){
+        val lm = LinearLayoutManager(activity)
+        with(binding.cerbungRecView){
+            layoutManager = lm
+            setHasFixedSize(true)
+            adapter = CerbungAdapter(cerbungs)
+        }
     }
 }
+
