@@ -16,8 +16,6 @@ import org.json.JSONObject
 
 class SignIn : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var binding = ActivitySignInBinding.inflate(layoutInflater)
