@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -42,18 +43,18 @@ class PrefFragment : Fragment() {
         var shared: SharedPreferences = requireContext().getSharedPreferences(sharedFile,
             Context.MODE_PRIVATE )
         var username = shared.getString("username", null)
-        val url = shared.getString("profilepic", null)
+        val url = shared.getString("image", null)
 
         val builder = Picasso.Builder(requireContext())
         builder.listener { picasso, uri, exception ->
             exception.printStackTrace()
         }
-        Picasso.get().load(url).into(binding.imageUser)
+        Picasso.get().load(url).into(binding.profileImageView)
 
 
-        binding.txtNama.setText(username)
+        binding.txtUsername.setText(username)
 
-        binding.fabLogOut.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle("Logout Confirmation")
             builder.setMessage("You sure?")
@@ -65,14 +66,35 @@ class PrefFragment : Fragment() {
             builder.create().show()
         }
 
-        binding.btnChangePass.setOnClickListener {
+        binding.darkModeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            Log.d("PrefsFragment", "Before Dark Mode Change - isChecked: $isChecked")
+
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                binding.darkModeSwitch.isChecked = isChecked
+            } else {
+                binding.darkModeSwitch.isChecked = false
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+
+            Log.d("PrefsFragment", "After Dark Mode Change - isChecked: $isChecked")
+        }
+
+        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // In-app notifications are enabled
+            } else {
+                // In-app notifications are disabled
+            }
+        }
+        binding.changePasswordButton.setOnClickListener {
             val dialog = AlertDialog.Builder(it.context)
             dialog.setMessage("Are you sure, you want change password?")
             dialog.setPositiveButton("YES",
                 DialogInterface.OnClickListener { dialogInterface, i ->
-                    if(binding.txtPassword.text.toString() == binding.txtRepeatPassword.text.toString()){
+                    if(binding.txtNewPass.text.toString() == binding.txtrConPass.text.toString()){
                         val q = Volley.newRequestQueue(requireContext())
-                        val url = "https://ubaya.me/native/160721056/changepassword.php"
+                        val url = "https://ubaya.me/native/160721056/cpassword.php"
                         val stringRequest = object : StringRequest(Method.POST,
                             url,
                             { Log.d("apisuccess",it)
@@ -80,9 +102,9 @@ class PrefFragment : Fragment() {
                                 val result = jsonObj.optString("result")
                                 if(result=="success"){
                                     Toast.makeText(requireContext(), "Password Changed", Toast.LENGTH_SHORT).show()
-                                    binding.txtPassword.setText("")
-                                    binding.txtOldPassword.setText("")
-                                    binding.txtRepeatPassword.setText("")
+                                    binding.txtNewPass.setText("")
+                                    binding.txtOldPass.setText("")
+                                    binding.txtrConPass.setText("")
                                 }
                                 else{
                                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -93,8 +115,8 @@ class PrefFragment : Fragment() {
                             override fun getParams(): MutableMap<String, String>? {
                                 val params = HashMap<String,String>()
                                 params["username"] = username.toString()
-                                params["current"] = binding.txtOldPassword.text.toString()
-                                params["new"]= binding.txtPassword.text.toString()
+                                params["current"] = binding.txtOldPass.text.toString()
+                                params["new"]= binding.txtNewPass.text.toString()
                                 return params
                             }
                         }
@@ -114,7 +136,7 @@ class PrefFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = PrefFragmentBinding.inflate(inflater,container,false )
+        binding = FragmentPrefBinding.inflate(inflater,container,false )
         return binding.root
 
 
@@ -122,7 +144,7 @@ class PrefFragment : Fragment() {
 
     companion object {
         fun newInstance(param1: String, param2: String) =
-            PrefsFragment().apply {
+            PrefFragment().apply {
                 arguments = Bundle().apply {
 
                 }

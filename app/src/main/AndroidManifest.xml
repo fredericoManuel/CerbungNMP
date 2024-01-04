@@ -57,9 +57,6 @@
             android:name=".Home"
             android:exported="false" />
         <activity
-            android:name=".cerbung_item"
-            android:exported="false" />
-        <activity
             android:name=".Cerbung"
             android:exported="true" />
         <activity

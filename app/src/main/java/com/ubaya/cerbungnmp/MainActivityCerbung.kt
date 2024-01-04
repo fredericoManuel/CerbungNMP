@@ -8,7 +8,6 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.cerbung.CerbungNav
 import com.google.android.material.snackbar.Snackbar
 import com.ubaya.cerbungnmp.databinding.ActivityMainCerbungBinding
 
